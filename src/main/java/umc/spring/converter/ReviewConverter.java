@@ -1,6 +1,8 @@
 package umc.spring.converter;
 
+import umc.spring.domain.Member;
 import umc.spring.domain.Review;
+import umc.spring.domain.Store;
 import umc.spring.web.dto.ReviewRequestDTO;
 import umc.spring.web.dto.ReviewResponseDTO;
 
@@ -17,8 +19,10 @@ public class ReviewConverter {
                 .build();
     }
 
-    public static Review toReview(ReviewRequestDTO.CreateReviewDto request) {
+    public static Review toReview(Member member, Store store, ReviewRequestDTO.CreateReviewDto request) {
         return Review.builder()
+                .member(member)
+                .store(store)
                 .title(request.getTitle())
                 .score(request.getScore())
                 .content(request.getContent())

@@ -3,6 +3,7 @@ package umc.spring.validation.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import umc.spring.apiPayload.code.status.ErrorStatus;
 import umc.spring.repository.MemberRepository;
@@ -10,9 +11,10 @@ import umc.spring.validation.annotation.ExistMembers;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-public class MembersExistValidator implements ConstraintValidator<ExistMembers, List<Long>>{
+public class MembersExistValidator implements ConstraintValidator<ExistMembers, Long>{
 
     private final MemberRepository memberRepository;
 
@@ -23,9 +25,8 @@ public class MembersExistValidator implements ConstraintValidator<ExistMembers, 
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value -> memberRepository.existsById(value));
+    public boolean isValid(Long value, ConstraintValidatorContext context) {
+        boolean isValid = memberRepository.existsById(value);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();

@@ -1,5 +1,7 @@
 package umc.spring.converter;
 
+import umc.spring.domain.Member;
+import umc.spring.domain.Mission;
 import umc.spring.domain.enums.MissionStatus;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.web.dto.MemberMissionRequestDTO;
@@ -14,8 +16,10 @@ public class MemberMissionConverter {
                 .build();
     }
 
-    public static MemberMission toMemberMission(MemberMissionRequestDTO.ChallengingMissionDTO request) {
+    public static MemberMission toMemberMission(Member member, Mission mission, MemberMissionRequestDTO.ChallengingMissionDTO request) {
         return MemberMission.builder()
+                .member(member)
+                .mission(mission)
                 .status(MissionStatus.CHALLENGING)
                 .build();
     }

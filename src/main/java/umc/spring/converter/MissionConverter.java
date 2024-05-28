@@ -1,6 +1,7 @@
 package umc.spring.converter;
 
 import umc.spring.domain.Mission;
+import umc.spring.domain.Store;
 import umc.spring.web.dto.MissionRequestDTO;
 import umc.spring.web.dto.MissionResponseDTO;
 
@@ -15,8 +16,9 @@ public class MissionConverter {
                 .build();
     }
 
-    public static Mission toMission(MissionRequestDTO.CreateMissionDto request) {
+    public static Mission toMission(Store store, MissionRequestDTO.CreateMissionDto request) {
         return Mission.builder()
+                .store(store)
                 .reward(request.getReward())
                 .deadline(request.getDeadline())
                 .missionSpec(request.getMissionSpec())

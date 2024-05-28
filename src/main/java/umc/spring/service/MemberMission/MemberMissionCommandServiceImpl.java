@@ -2,7 +2,14 @@ package umc.spring.service.MemberMission;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import umc.spring.apiPayload.code.status.ErrorStatus;
+import umc.spring.apiPayload.exception.MemberHandler;
+import umc.spring.apiPayload.exception.MissionHandler;
+import umc.spring.apiPayload.exception.StoreHandler;
 import umc.spring.converter.MemberMissionConverter;
+import umc.spring.domain.Member;
+import umc.spring.domain.Mission;
+import umc.spring.domain.Store;
 import umc.spring.domain.mapping.MemberMission;
 import umc.spring.repository.MemberMissionRepository;
 import umc.spring.repository.MemberRepository;
@@ -19,9 +26,12 @@ public class MemberMissionCommandServiceImpl implements MemberMissionCommandServ
 
     @Override
     public MemberMission challengeMemberMission(Long memberId, Long missionId, MemberMissionRequestDTO.ChallengingMissionDTO request) {
-        MemberMission memberMission = MemberMissionConverter.toMemberMission(request);
-        memberMission.setMember(memberRepository.findById(memberId).get());
-        memberMission.setMission(missionRepository.findById(missionId).get());
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
+
+        MemberMission memberMission = MemberMissionConverter.toMemberMission(member, mission, request);
         return memberMissionRepository.save(memberMission);
     }
 }

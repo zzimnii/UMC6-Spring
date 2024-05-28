@@ -26,14 +26,13 @@ public class StoreController {
     private final MissionCommandService missionCommandService;
 
     @PostMapping("/{storeId}/reviews")
-    public ApiResponse<ReviewResponseDTO.CreateReviewDto> createReviewDto(@PathVariable @ExistStore
-                                                                              Long storeId, @RequestParam @ExistMembers Long memberId, @RequestBody @Valid ReviewRequestDTO.CreateReviewDto request) {
+    public ApiResponse<ReviewResponseDTO.CreateReviewDto> createReviewDto(@PathVariable @ExistStore Long storeId, @RequestParam @ExistMembers Long memberId, @RequestBody @Valid ReviewRequestDTO.CreateReviewDto request) {
         Review review = reviewCommandService.createReview(storeId,memberId, request);
         return ApiResponse.onSuccess(ReviewConverter.toCreateResultDTO(review));
     }
 
     @PostMapping("/{storeId}/missions")
-    public ApiResponse<MissionResponseDTO.CreateMissionDto> createMissionDto(@PathVariable @ExistStore Long storeId, @RequestBody @Valid MissionRequestDTO.CreateMissionDto request) {
+    public ApiResponse<MissionResponseDTO.CreateMissionDto> createMissionDto(@PathVariable @ExistStore Long storeId, @RequestBody MissionRequestDTO.CreateMissionDto request) {
         Mission mission = missionCommandService.createMission(storeId, request);
         return ApiResponse.onSuccess(MissionConverter.toCreateResultDTO(mission));
     }

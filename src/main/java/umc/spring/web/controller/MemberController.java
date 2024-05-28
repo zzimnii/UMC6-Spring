@@ -30,7 +30,7 @@ public class MemberController {
     private final MemberMissionCommandServcie memberMissionCommandServcie;
 
     @PostMapping("/")
-    public ApiResponse<MemberResponseDTO.JoinResultDTO> joinMemberDTO(@RequestBody @Valid MemberRequestDTO.JoinDto request) {
+    public ApiResponse<MemberResponseDTO.JoinResultDTO> joinMemberDTO(@RequestBody MemberRequestDTO.JoinDto request) {
         Member member = memberCommandService.joinMember(request);
         return ApiResponse.onSuccess(MemberConverter.toJoinResultDTO(member));
     }

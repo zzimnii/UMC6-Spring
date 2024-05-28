@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class MissionsExistValidator implements ConstraintValidator<ExistMissions, List<Long>> {
+public class MissionsExistValidator implements ConstraintValidator<ExistMissions, Long> {
 
     private final MissionRepository missionRepository;
 
@@ -25,9 +25,8 @@ public class MissionsExistValidator implements ConstraintValidator<ExistMissions
     }
 
     @Override
-    public boolean isValid(List<Long> values, ConstraintValidatorContext context) {
-        boolean isValid = values.stream()
-                .allMatch(value -> missionRepository.existsById(value));
+    public boolean isValid(Long value, ConstraintValidatorContext context) {
+        boolean isValid =missionRepository.existsById(value);
 
         if (!isValid) {
             context.disableDefaultConstraintViolation();
