@@ -24,10 +24,7 @@ import umc.spring.service.MemberMission.MemberMissionQueryService;
 import umc.spring.service.MemberService.MemberCommandService;
 import umc.spring.service.MissionService.MissionQueryService;
 import umc.spring.service.ReviewService.ReviewQueryService;
-import umc.spring.validation.annotation.ExistMembers;
-import umc.spring.validation.annotation.ExistMissions;
-import umc.spring.validation.annotation.ExistStore;
-import umc.spring.validation.annotation.IsChallenging;
+import umc.spring.validation.annotation.*;
 import umc.spring.web.dto.*;
 
 @RestController
@@ -52,8 +49,8 @@ public class MemberController {
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "access 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "access 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     public ApiResponse<MemberMissionResponseDTO.ChallengingResultDTO> challengingMissionDTO(@RequestBody @IsChallenging MemberMissionRequestDTO.ChallengingMissionDTO request) {
         MemberMission memberMission = memberMissionCommandServcie.challengeMemberMission(request.getMemberId(), request.getMissionId(), request);
@@ -65,13 +62,13 @@ public class MemberController {
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "access 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "access 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
             @Parameter(name = "memberId", description = "멤버의 아이디, path variable 입니다!")
     })
-    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @CheckPage  @RequestParam(name = "page") Integer page){
         Page<Review> reviews = reviewQueryService.getReviewList(memberId, page);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviews));
     }
@@ -81,13 +78,13 @@ public class MemberController {
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "COMMON200",description = "OK, 성공"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH003", description = "access 토큰을 주세요!",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "acess 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "acess 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH004", description = "access 토큰 만료",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH006", description = "access 토큰 모양이 이상함",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
     })
     @Parameters({
             @Parameter(name = "memberId", description = "멤버의 아이디, path variable 입니다!")
     })
-    public ApiResponse<MemberMissionResponseDTO.MemberMissionPreViewListDTO> getMemberMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @RequestParam(name = "page") Integer page){
+    public ApiResponse<MemberMissionResponseDTO.MemberMissionPreViewListDTO> getMemberMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @CheckPage  @RequestParam(name = "page") Integer page){
         Page<MemberMission> memberMissions = memberMissionQueryService.getChallengingMissionList(memberId, page);
         return ApiResponse.onSuccess(MemberMissionConverter.memberMissionPreViewListDTO(memberMissions));
     }
