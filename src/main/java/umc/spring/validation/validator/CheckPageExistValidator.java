@@ -25,7 +25,7 @@ public class CheckPageExistValidator implements ConstraintValidator<CheckPage, I
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
 
-        if (value < 0){
+        if (value < 1){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.INVALID_PAGE.toString()).addConstraintViolation();
             return false;

@@ -69,7 +69,7 @@ public class MemberController {
             @Parameter(name = "memberId", description = "멤버의 아이디, path variable 입니다!")
     })
     public ApiResponse<ReviewResponseDTO.ReviewPreViewListDTO> getMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @CheckPage  @RequestParam(name = "page") Integer page){
-        Page<Review> reviews = reviewQueryService.getReviewList(memberId, page);
+        Page<Review> reviews = reviewQueryService.getReviewList(memberId, page-1);
         return ApiResponse.onSuccess(ReviewConverter.reviewPreViewListDTO(reviews));
     }
 
@@ -85,7 +85,7 @@ public class MemberController {
             @Parameter(name = "memberId", description = "멤버의 아이디, path variable 입니다!")
     })
     public ApiResponse<MemberMissionResponseDTO.MemberMissionPreViewListDTO> getMemberMissionList(@ExistMembers @PathVariable(name = "memberId") Long memberId, @CheckPage  @RequestParam(name = "page") Integer page){
-        Page<MemberMission> memberMissions = memberMissionQueryService.getChallengingMissionList(memberId, page);
+        Page<MemberMission> memberMissions = memberMissionQueryService.getChallengingMissionList(memberId, page-1);
         return ApiResponse.onSuccess(MemberMissionConverter.memberMissionPreViewListDTO(memberMissions));
     }
 }
